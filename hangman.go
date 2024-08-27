@@ -72,9 +72,42 @@ func print_hangman() {
 	}
 }
 
+func check_letter(letter string) {
+	guessed := false
+	for i, char := range hangman.word {
+		if string(char) == letter {
+			hangman.guessed = hangman.guessed[:i] + letter + hangman.guessed[i+1:]
+			guessed = true
+		}
+	}
+	if !guessed {
+		hangman.tries++
+	}
+}
+
+func scan_for_letter() {
+	var letter string
+	fmt.Scanln(&letter)
+
+	if len(letter) != 1 {
+		fmt.Println("Please enter a single letter")
+		scan_for_letter()
+		return
+	}
+
+	if strings.Contains(hangman.guessed, letter) {
+		fmt.Println("You already guessed that letter")
+		scan_for_letter()
+		return
+	}
+
+	check_letter(letter)
+}
+
 func print_elements() {
 	fmt.Println("Word: ", hangman.guessed)
 	print_hangman()
+	fmt.Print("\n Guess a letter: ")
 }
 
 func print_lose_screen() {
@@ -87,6 +120,7 @@ func print_lose_screen() {
 func game_loop() {
 	for hangman.tries != MAX_TRIES {
 		print_elements()
+		scan_for_letter()
 
 	}
 	print_lose_screen()
