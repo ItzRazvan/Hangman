@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
 	"os"
+	"strings"
+	"time"
 )
 
 const MAX_TRIES int = 6
@@ -16,7 +19,7 @@ type Hangman struct {
 var hangman Hangman
 
 func generate_random_word() string {
-	//randInt := rand.IntN(10000) + 1
+	rand.Seed(time.Now().UnixNano())
 
 	dat, err := os.ReadFile("word_list.txt")
 	if err != nil {
@@ -24,15 +27,17 @@ func generate_random_word() string {
 		os.Exit(1)
 	}
 
-	word_list := string(dat[:])
+	word_list := strings.Split(string(dat), "\n")
 
-	for char, s := range word_list {
-		if char == '\n' || s == '\n' {
-			fmt.Println("nice")
-		}
+	if len(word_list) == 0 {
+		fmt.Println("Word list is empty")
+		os.Exit(1)
 	}
 
-	return ""
+	random_index := rand.Intn(len(word_list))
+	word := word_list[random_index]
+
+	return word
 }
 
 func main() {
@@ -40,5 +45,7 @@ func main() {
 
 	word := generate_random_word()
 	hangman.word = word
+
+	fmt.Println("Word: ", word)
 
 }
