@@ -40,12 +40,20 @@ func generate_random_word() string {
 	return word
 }
 
+func guessed_init(word string) string {
+	guessed := ""
+	for i := 0; i < len(word); i++ {
+		guessed += "_"
+	}
+	return guessed
+}
+
 func main() {
 	fmt.Println("Welcome to the Hangman game\n\n")
 
 	word := generate_random_word()
-	hangman.word = word
+	guessed := guessed_init(word)
 
-	fmt.Println("Word: ", word)
+	fmt.Println(word, guessed)
 
 }
