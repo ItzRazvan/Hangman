@@ -48,12 +48,56 @@ func guessed_init(word string) string {
 	return guessed
 }
 
+func hangman_init(word string, guessed string) {
+	hangman.word = word
+	hangman.guessed = guessed
+	hangman.tries = 0
+}
+
+func print_hangman() {
+	switch hangman.tries {
+	case 0:
+		fmt.Println("------------\n|          |\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|\n|")
+	case 1:
+		fmt.Println("------------\n|          |\n|         ---\n|        |. .|\n|         ---\n|\n|\n|\n|\n|\n|\n|")
+	case 2:
+		fmt.Println("------------\n|          |\n|         ---\n|        |   |\n|         ---\n|          |\n|          |\n|          |\n|\n|\n|\n|")
+	case 3:
+		fmt.Println("------------\n|          |\n|         ---\n|        |   |\n|         ---\n|         /|\n|          |\n|          |\n|\n|\n|\n|")
+	case 4:
+		fmt.Println("------------\n|          |\n|         ---\n|        |   |\n|         ---\n|         /|\\ \n|          |\n|          |\n|\n|\n|\n|")
+	case 5:
+		fmt.Println("------------\n|          |\n|         ---\n|        |   |\n|         ---\n|         /|\\ \n|          |\n|          |\n|         /\n|\n|\n|")
+	default:
+	}
+}
+
+func print_elements() {
+	fmt.Println("Word: ", hangman.guessed)
+	print_hangman()
+}
+
+func print_lose_screen() {
+	fmt.Println("   YOU LOST\n")
+	fmt.Println("You guessed: ", hangman.guessed)
+	fmt.Println("The correct word: ", hangman.word)
+	fmt.Println("------------\n|          |\n|         ---\n|        |. .|\n|         ---\n|         /|\\ \n|          |\n|          |\n|         / \\ \n|\n|\n|")
+}
+
+func game_loop() {
+	for hangman.tries != MAX_TRIES {
+		print_elements()
+
+	}
+	print_lose_screen()
+}
+
 func main() {
 	fmt.Println("Welcome to the Hangman game\n\n")
 
 	word := generate_random_word()
 	guessed := guessed_init(word)
+	hangman_init(word, guessed)
 
-	fmt.Println(word, guessed)
-
+	game_loop()
 }
