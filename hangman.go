@@ -8,6 +8,10 @@ import (
 	"time"
 )
 
+var Reset = "\033[0m"
+var Red = "\033[31m"
+var Green = "\033[32m"
+
 const MAX_TRIES int = 6
 
 type Hangman struct {
@@ -119,14 +123,14 @@ func print_elements() {
 }
 
 func print_lose_screen() {
-	fmt.Println("   YOU LOST\n")
+	fmt.Println(Red + "   YOU LOST\n" + Reset)
 	fmt.Println("You guessed: ", hangman.guessed)
 	fmt.Println("The correct word: ", hangman.word)
 	fmt.Println("------------\n|          |\n|         ---\n|        |. .|\n|         ---\n|         /|\\ \n|          |\n|          |\n|         / \\ \n|\n|\n|")
 }
 
 func print_win_screen() {
-	fmt.Println("\n\n   YOU WON\n")
+	fmt.Println(Green + "\n\n   YOU WON\n" + Reset)
 	fmt.Println("You guessed: ", hangman.guessed)
 	fmt.Println("The correct word: ", hangman.word)
 }
