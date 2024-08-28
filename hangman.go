@@ -37,6 +37,14 @@ func generate_random_word() string {
 	random_index := rand.Intn(len(word_list))
 	word := word_list[random_index]
 
+	word = strings.TrimSuffix(word, "\n")
+	word = strings.TrimSuffix(word, "\r")
+	word = strings.ReplaceAll(word, " ", "")
+
+	if len(word) <= 2 || len(word) >= 10 {
+		return generate_random_word()
+	}
+
 	return word
 }
 
@@ -117,13 +125,27 @@ func print_lose_screen() {
 	fmt.Println("------------\n|          |\n|         ---\n|        |. .|\n|         ---\n|         /|\\ \n|          |\n|          |\n|         / \\ \n|\n|\n|")
 }
 
+func print_win_screen() {
+	fmt.Println("\n\n   YOU WON\n")
+	fmt.Println("You guessed: ", hangman.guessed)
+	fmt.Println("The correct word: ", hangman.word)
+}
+
 func game_loop() {
+	win := false
 	for hangman.tries != MAX_TRIES {
 		print_elements()
 		scan_for_letter()
-
+		if strings.Compare(hangman.word, hangman.guessed) == 0 {
+			win = true
+			break
+		}
 	}
-	print_lose_screen()
+	if win {
+		print_win_screen()
+	} else {
+		print_lose_screen()
+	}
 }
 
 func main() {
